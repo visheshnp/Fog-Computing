@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+message CoordLatencyError {
+
+  // Coordinates
+  double lat = 1;
+  double lng = 2;
+  // double latency = 3;
+  double error = 3;
+}
+
+/*message NodeDetails {
+
+  string src_identity = 1;
+  CoordLatencyError details = 2;
+}*/
+
+message CentralRepoRequest {
+
+  double my_id = 1;
+}
+
+message CentralReply {
+
+  // Constant values - Tuning parameters
+  // List of IP addresses
+  double c_e = 1;
+  double c_c = 2;
+  repeated string list_nodes = 3;
+}
+
+message IpPortTuple {
+
+  string ip_addr = 1;
+  int64 port = 2;
+}
+
+message RttMessage {
+
+  string sourceIdentity = 1;
+  CoordLatencyError coordLatencyError = 2;
+  uint64 processingTimeAtRemote = 3;
+}
+
+message Message {
+
+  enum MessageType {
+    CentralRequest = 0;
+    CentralReply = 1;
+    NodeDetails = 2;
+  };
+
+  enum Direction {
+    TO_CENTRAL = 0;
+    FROM_CENTRAL = 1;
+    PEER_NODES = 2;
+  };
+
+  MessageType type = 1;
+  string src = 2;
+  int64 timestamp = 3;
+  Direction direction = 4;
+  CentralRepoRequest repoRequest = 5;
+  CentralReply repoReply = 6;
+  // NodeDetails nodeDetails = 7;
+}
+
